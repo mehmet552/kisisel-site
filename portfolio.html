@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mehmet Şiyar Salman | Portfolio</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0f14;
+      --surface: #161922;
+      --surface2: #1e2130;
+      --accent: #6c63ff;
+      --accent2: #00d4ff;
+      --text: #e8eaf0;
+      --muted: #8892a4;
+      --border: #2a2f40;
+      --radius: 12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 2rem;
+      background: rgba(13, 15, 20, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-size: 1.1rem; font-weight: 700; letter-spacing: 0.05em;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none; font-size: 0.9rem;
+      position: relative; /* Alt çizgi için */
+      transition: color 0.2s;
+    }
+    .nav-links a::after { /* Alt çizgi efekti */
+      content: '';
+      position: absolute;
+      left: 0; bottom: -5px; /* Konumu ayarlayabilirsiniz */
+      width: 100%; height: 2px;
+      background: var(--accent); /* Veya bir gradient */
+      transform: scaleX(0); transform-origin: bottom right;
+      transition: transform 0.25s ease-out;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 6rem 2rem 4rem;
+      position: relative; overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 70% 40%, rgba(108,99,255,0.15) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 30% 60%, rgba(0,212,255,0.08) 0%, transparent 70%);
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 700px; }
+    .hero-tag {
+      display: inline-block; margin-bottom: 1.2rem;
+      padding: 0.35rem 1rem;
+      border: 1px solid var(--accent);
+      border-radius: 999px;
+      font-size: 0.8rem; color: var(--accent); letter-spacing: 0.1em;
+    }
+    .hero-name {
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      font-weight: 800; line-height: 1.1; margin-bottom: 1rem;
+      background: linear-gradient(135deg, #fff 30%, var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-sub {
+      font-size: 1.15rem; color: var(--muted); margin-bottom: 2rem;
+      max-width: 540px;
+    }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.75rem 1.6rem; border-radius: 8px;
+      font-size: 0.9rem; font-weight: 600; text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #8b84ff);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(108,99,255,0.35);
+    }
+    .btn-primary:hover { box-shadow: 0 6px 28px rgba(108,99,255,0.5); }
+    .btn-outline {
+      border: 1px solid var(--border); color: var(--text);
+      background: transparent;
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── SECTIONS ── */
+    section { padding: 5rem 2rem; max-width: 960px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 700; margin-bottom: 3rem;
+    }
+    .divider {
+      height: 1px; background: var(--border);
+      max-width: 960px; margin: 0 auto;
+    }
+
+    /* ── ABOUT ── */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+    @media (max-width: 640px) { .about-grid { grid-template-columns: 1fr; } }
+    .about-text { color: var(--muted); font-size: 1rem; }
+    .about-text p { margin-bottom: 1rem; }
+    .about-stats { display: flex; flex-direction: column; gap: 1.2rem; }
+    .stat-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.2rem 1.5rem;
+    }
+    .stat-number {
+      font-size: 2rem; font-weight: 800;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .stat-label { font-size: 0.85rem; color: var(--muted); }
+
+    /* ── SKILLS ── */
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.2rem; }
+    .skill-group {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.5rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .skill-group:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .skill-group-title {
+      font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1rem;
+    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .tag {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 6px; padding: 0.3rem 0.7rem;
+      font-size: 0.8rem; color: var(--text);
+    }
+
+    /* ── PROJECTS ── */
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+    .project-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.8rem;
+      display: flex; flex-direction: column; gap: 1rem;
+      transition: border-color 0.2s, transform 0.2s;
+      position: relative; overflow: hidden;
+    }
+    .project-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.3s;
+    }
+    .project-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .project-card:hover::before { transform: scaleX(1); }
+    .project-name { font-size: 1.1rem; font-weight: 700; }
+    .project-desc { font-size: 0.9rem; color: var(--muted); flex: 1; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .project-tag {
+      background: rgba(108,99,255,0.1); border: 1px solid rgba(108,99,255,0.25);
+      color: var(--accent); border-radius: 4px;
+      font-size: 0.75rem; padding: 0.2rem 0.6rem;
+    }
+    .project-links { display: flex; gap: 0.75rem; margin-top: 0.5rem; }
+    .project-link {
+      font-size: 0.8rem; color: var(--muted); text-decoration: none;
+      display: flex; align-items: center; gap: 0.3rem;
+      transition: color 0.2s;
+    }
+    .project-link:hover { color: var(--accent2); }
+
+    /* ── EDUCATION ── */
+    .edu-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 2rem;
+      display: flex; gap: 1.5rem;
+    }
+    @media (max-width: 540px) { .edu-card { flex-direction: column; } }
+    .edu-icon {
+      width: 52px; height: 52px; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+    }
+    .edu-degree { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .edu-school { color: var(--accent); font-size: 0.95rem; margin-bottom: 0.25rem; }
+    .edu-period { color: var(--muted); font-size: 0.85rem; }
+
+    /* ── ACTIVITIES ── */
+    .activities-list { display: flex; flex-direction: column; gap: 1rem; }
+    .activity-item {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.2rem 1.5rem;
+      display: flex; align-items: flex-start; gap: 1rem;
+    }
+    .activity-dot {
+      width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 6px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+    }
+    .activity-text { color: var(--muted); font-size: 0.95rem; }
+
+    /* ── CONTACT ── */
+    .contact-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
+    .contact-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.4rem;
+      text-decoration: none; color: var(--text);
+      display: flex; align-items: center; gap: 1rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .contact-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .contact-icon {
+      width: 42px; height: 42px; border-radius: 10px; flex-shrink: 0;
+      background: var(--surface2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+    }
+    .contact-label { font-size: 0.75rem; color: var(--muted); margin-bottom: 0.15rem; }
+    .contact-value { font-size: 0.85rem; font-weight: 600; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center; padding: 2.5rem 1rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted); font-size: 0.85rem;
+    }
+
+    /* ── ANIMATIONS ── */
+    .fade-in {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">M.Ş.S</span>
+  <ul class="nav-links">
+    <li><a href="#about">Hakkımda</a></li>
+    <li><a href="#skills">Beceriler</a></li>
+    <li><a href="#projects">Projeler</a></li>
+    <li><a href="#education">Eğitim</a></li>
+    <li><a href="#contact">İletişim</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <span class="hero-tag">YBS Öğrencisi · Stajyer</span>
+    <h1 class="hero-name">Mehmet Şiyar<br>Salman</h1>
+    <p class="hero-sub">
+      Python ve web teknolojilerine meraklı, yapay zeka destekli uygulamalar geliştirmeyi hedefleyen
+      İstanbul Esenyurt Üniversitesi Yönetim Bilişim Sistemleri öğrencisi.
+    </p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn btn-primary">Projelerimi Gör</a>
+      <a href="#contact" class="btn btn-outline">İletişime Geç</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <p class="section-label">Hakkımda</p>
+  <h2 class="section-title">Kim Olduğum</h2>
+  <div class="about-grid fade-in">
+    <div class="about-text">
+      <p>
+        İstanbul Esenyurt Üniversitesi Yönetim Bilişim Sistemleri bölümünde 3. sınıf öğrencisiyim.
+        Yazılım ve proje geliştirme konusunda meraklı ve araştırmacı biriyim.
+      </p>
+      <p>
+        Python ve web teknolojilerine ilgi duyuyor, yapay zeka destekli uygulamalar geliştirmeyi
+        hedefliyorum. Grup projelerinde aktif rol alarak takım çalışması deneyimi kazandım.
+      </p>
+      <p>
+        Açık kaynak projelere ve Linux ekosistemine özel ilgi duyuyor; hem backend hem frontend
+        alanlarında kendimi geliştirmeye devam ediyorum.
+      </p>
+    </div>
+    <div class="about-stats">
+      <div class="stat-card">
+        <div class="stat-number">3+</div>
+        <div class="stat-label">Yıllık Programlama Deneyimi</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">2027</div>
+        <div class="stat-label">Beklenen Mezuniyet Yılı</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">8+</div>
+        <div class="stat-label">Teknoloji & Araç</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <p class="section-label">Teknik Beceriler</p>
+  <h2 class="section-title">Neler Biliyorum</h2>
+  <div class="skills-grid">
+    <div class="skill-group fade-in">
+      <div class="skill-group-title">Programlama Dilleri</div>
+      <div class="skill-tags">
+        <span class="tag">Python</span>
+        <span class="tag">JavaScript</span>
+        <span class="tag">SQL</span>
+      </div>
+    </div>
+    <div class="skill-group fade-in">
+      <div class="skill-group-title">Web Teknolojileri</div>
+      <div class="skill-tags">
+        <span class="tag">HTML</span>
+        <span class="tag">CSS</span>
+        <span class="tag">Bootstrap</span>
+        <span class="tag">Flask</span>
+      </div>
+    </div>
+    <div class="skill-group fade-in">
+      <div class="skill-group-title">Araçlar & Ortamlar</div>
+      <div class="skill-tags">
+        <span class="tag">Git</span>
+        <span class="tag">VS Code</span>
+        <span class="tag">Linux</span>
+      </div>
+    </div>
+    <div class="skill-group fade-in">
+      <div class="skill-group-title">İlgi Alanları</div>
+      <div class="skill-tags">
+        <span class="tag">Yapay Zeka</span>
+        <span class="tag">Veri Bilimi</span>
+        <span class="tag">Açık Kaynak</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <p class="section-label">Projeler</p>
+  <h2 class="section-title">Çalışmalarım</h2>
+  <div class="projects-grid">
+
+    <div class="project-card fade-in">
+      <div class="project-name">TÜBİTAK Projesi</div>
+      <div class="project-desc">
+        TÜBİTAK destekli bir proje kapsamında takımla birlikte aktif olarak geliştirme sürecinde yer alıyorum.
+        Proje detayları yakında paylaşılacak.
+      </div>
+      <div class="project-tags">
+        <span class="project-tag">Python</span>
+        <span class="project-tag">Takım Çalışması</span>
+        <span class="project-tag">Araştırma</span>
+      </div>
+      <div class="project-links">
+        <span style="font-size:0.8rem; color:var(--muted);">🚧 Devam Ediyor</span>
+      </div>
+    </div>
+
+    <div class="project-card fade-in">
+      <div class="project-name">Web Uygulamaları</div>
+      <div class="project-desc">
+        Flask ve Bootstrap kullanarak çeşitli web uygulamaları geliştirdim.
+        GitHub profilimde örnek projeler ve kaynak kodlara ulaşabilirsiniz.
+      </div>
+      <div class="project-tags">
+        <span class="project-tag">Flask</span>
+        <span class="project-tag">HTML/CSS</span>
+        <span class="project-tag">Bootstrap</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/mehmet552?tab=repositories" target="_blank" class="project-link">
+          ⬡ GitHub'da Gör
+        </a>
+      </div>
+    </div>
+
+    <div class="project-card fade-in">
+      <div class="project-name">Python Projeleri</div>
+      <div class="project-desc">
+        Veri işleme, otomasyon ve yapay zeka odaklı Python projeleri üzerinde çalışıyorum.
+        Açık kaynak katkılarım GitHub sayfamda mevcut.
+      </div>
+      <div class="project-tags">
+        <span class="project-tag">Python</span>
+        <span class="project-tag">Veri Analizi</span>
+        <span class="project-tag">AI/ML</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/mehmet552?tab=repositories" target="_blank" class="project-link">
+          ⬡ GitHub'da Gör
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EDUCATION -->
+<section id="education">
+  <p class="section-label">Eğitim</p>
+  <h2 class="section-title">Akademik Geçmiş</h2>
+  <div class="edu-card fade-in">
+    <div class="edu-icon">🎓</div>
+    <div>
+      <div class="edu-degree">Yönetim Bilişim Sistemleri</div>
+      <div class="edu-school">İstanbul Esenyurt Üniversitesi</div>
+      <div class="edu-period">2022 – 2027 (Devam ediyor)</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ACTIVITIES -->
+<section id="activities">
+  <p class="section-label">Akademik Etkinlikler</p>
+  <h2 class="section-title">Deneyimlerim</h2>
+  <div class="activities-list">
+    <div class="activity-item fade-in">
+      <div class="activity-dot"></div>
+      <div class="activity-text">Bölüm ders projelerinde takım lideri olarak görev aldım; proje planlaması ve koordinasyonunu yürüttüm.</div>
+    </div>
+    <div class="activity-item fade-in">
+      <div class="activity-dot"></div>
+      <div class="activity-text">Hackathon ve teknoloji etkinliklerine katılım sağlayarak pratik problem çözme becerilerimi geliştirdim.</div>
+    </div>
+    <div class="activity-item fade-in">
+      <div class="activity-dot"></div>
+      <div class="activity-text">TÜBİTAK için proje geliştiren bir takımın aktif üyesiyim.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-label">İletişim</p>
+  <h2 class="section-title">Bana Ulaşın</h2>
+  <div class="contact-grid">
+    <a href="mailto:m.siyar47@gmail.com" class="contact-card fade-in">
+      <div class="contact-icon">✉️</div>
+      <div>
+        <div class="contact-label">E-posta</div>
+        <div class="contact-value">m.siyar47@gmail.com</div>
+      </div>
+    </a>
+    <a href="tel:+905432432551" class="contact-card fade-in">
+      <div class="contact-icon">📱</div>
+      <div>
+        <div class="contact-label">Telefon</div>
+        <div class="contact-value">+90 543 243 25 51</div>
+      </div>
+    </a>
+    <a href="https://www.linkedin.com/in/mehmet-%C5%9Fiyar-salman-432b30278/" target="_blank" class="contact-card fade-in">
+      <div class="contact-icon">🔗</div>
+      <div>
+        <div class="contact-label">LinkedIn</div>
+        <div class="contact-value">Profili Gör</div>
+      </div>
+    </a>
+    <a href="https://github.com/mehmet552?tab=repositories" target="_blank" class="contact-card fade-in">
+      <div class="contact-icon">⬡</div>
+      <div>
+        <div class="contact-label">GitHub</div>
+        <div class="contact-value">mehmet552</div>
+      </div>
+    </a>
+    <div class="contact-card fade-in" style="cursor:default;">
+      <div class="contact-icon">📍</div>
+      <div>
+        <div class="contact-label">Konum</div>
+        <div class="contact-value">İstanbul, Türkiye</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Mehmet Şiyar Salman · Yazılım geliştirme tutkusuyla tasarlandı.</p>
+</footer>
+
+<script>
+  // Scroll-triggered fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Active nav link highlight
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(sec => {
+      if (window.scrollY >= sec.offsetTop - 120) current = sec.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--text)' : '';
+    });
+  });
+</script>
+</body>
+</html>
